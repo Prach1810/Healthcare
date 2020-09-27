@@ -1,4 +1,5 @@
 ## ML Based Dynamic Healthcare-webapp
+## Team name - The Technocrats
 This project is a part of the hackathon HACK-NU-THON. This is an ML Based webapp titled 'CareConnect' with motto 'keeping you well !' , backend framework as Django which enables the user to-
 1. Do Self analysis and get accurate predictions on Covid severity.
 2. Emergency contact facility inbuilt like video chat/calling facility.
