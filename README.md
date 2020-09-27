@@ -14,7 +14,9 @@ This project is a part of the hackathon HACK-NU-THON. This is an ML Based webapp
 - SCSS
 - CSS
 - jQuery
+- SQLite3
 - Database Management
+- GeoLite Database
 - Machine Learning
 - UI Design with AdobeXd
 - Powerpoint presentation
