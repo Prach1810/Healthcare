@@ -15,7 +15,7 @@ This project is a part of the hackathon HACK-NU-THON. This is an ML Based webapp
 - Database Management
 - Machine Learning
 - UI Design with AdobeXd
-- Powerpoint presenation
+- Powerpoint presentation
 
 
 
