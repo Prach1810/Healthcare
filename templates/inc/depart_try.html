@@ -1,0 +1,29 @@
+<div class="our_department_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="section_title text-center mb-55">
+                    <h3>Select Department</h3>
+            
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            {% for dept in departments %}
+                <div class="col-xl-4 col-md-6 col-lg-4">
+                    <div class="single_department">
+                        <div class="department_thumb">
+                            <img src="media/{{dept.department_image}}" style="height: 250px;" alt="">
+                        </div>
+                        <div class="department_content">
+                            <h3><a href="department/{{dept.name}}">{{dept.name}}</a></h3>
+                            <p>{{dept.short_description}}</p>
+                            <a href="department/{{dept.name}}" class="learn_more">Go to {{dept.name}}</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            
+        </div>
+    </div>
+</div>

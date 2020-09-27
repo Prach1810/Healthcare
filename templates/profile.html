@@ -1,0 +1,906 @@
+{% load static %}
+{% include 'inc/head.inc.html' %}
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+<style>
+    .add_review_icon{
+        background-color: #1d88fa;
+        color: white;
+        border-radius: 100%;
+        padding: 3px;
+        margin-left: 5px;
+        cursor: pointer;
+    }
+
+    .text-lightgrey{
+        color: #cccccc;
+    }
+</style>
+
+
+
+<body>
+    <!--[if lte IE 9]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+        <![endif]-->
+
+    <!-- Button trigger modal -->
+  
+    
+    <!-- Modal -->
+    <div class="modal fade" id="date_form" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Date & time</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <form action="" method="post" id="confirm_appoint">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        
+                            <div class="form-group">
+                                <h5 class="my-3">for the selected appointment</h5>
+                                <input type="hidden" id="ap_id" name="AP_ID">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <input class="form-control" type="date" name="DATE" id="DATE" required>
+
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <input class="form-control"  type="time" name="TIME" id="TIME" required>
+
+                                    </div>
+                                </div>
+                            </div>
+                    
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="reset_password" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Reset password</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <form action="" method="post" id="reset_password_form">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm-12 my-2">
+                                        <input class="form-control" type="password" name="current_password" id="current_password" placeholder="Current password" required>
+
+                                    </div>
+
+                                    <div class="col-sm-12 my-2">
+                                        <input class="form-control"  type="password" name="new_password" id="new_password" placeholder="New password" required>
+
+                                    </div>
+
+                                    <div class="col-sm-12 my-2">
+                                        <p class="text-danger" id="reset_form_error"></p>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                    
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- header-start -->
+    {% include 'inc/header.inc.html' %}
+
+    <!-- header-end -->
+    <div class="container">
+        <div class="row my-5">
+
+            {% if review_view %}
+
+
+
+            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                <div class="profile p-4">
+             
+                    <img src="media/{{doctor.image}}" style="width: 100px;" class="pic-profile rounded-circle my-3" alt="">
+
+            
+
+              
+                    <!-- <p class="para-grey">{{doctor.email}}</p>  -->
+    
+                    
+    
+                    <div class="row my-4" style="text-align: left;">
+                        <div class="col-1 px-4 d-flex justify-content-right align-items-center">
+                            <i class="material-icons info-icon">person</i>
+                        </div>
+                        
+                        <div class="col-10" style="padding-left: 30px;">
+                            <h5 class="text-primary text-b">Name</h5>
+                            <p class="info-sub-head">{{doctor.first_name}} {{doctor.last_name}}</p>
+    
+                        </div>
+
+
+                    </div>
+    
+                    <div class="row my-4" style="text-align: left;">
+                        <div class="col-1 px-4 d-flex justify-content-right align-items-center">
+                            <i class="material-icons info-icon">mail</i>
+                        </div>
+                        <div class="col-10" style="padding-left: 30px;">
+                            <h5 class="text-primary text-b">Email</h5>
+                            <p class="info-sub-head">{{doctor.email}}</p>
+    
+                        </div>
+                    </div>
+
+                
+                    <div class="row my-4" style="text-align: left;">
+                        <div class="col-1 px-4 d-flex justify-content-right align-items-center">
+                            <i class="material-icons info-icon">check_box</i>
+                        </div>
+                        <div class="col-10" style="padding-left: 30px;">
+                            <h5 class="text-primary text-b">Hospital</h5>
+                            <p class="info-sub-head">{{doctor.hospital}}</p>
+    
+                        </div>
+                    </div>
+
+                    
+
+                    <div class="row my-4" style="text-align: left;">
+                        <div class="col-1 px-4 d-flex justify-content-right align-items-center">
+                            <i class="material-icons info-icon">verified</i>
+                        </div>
+                        <div class="col-10" style="padding-left: 30px;">
+                            <h5 class="text-primary text-b">Profession</h5>
+                            <p class="info-sub-head">{{doctor.profession}}</p>
+    
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="row my-4" style="text-align: left;">
+                        
+                        <div class="col-sm-6" style="padding-left: 30px;">
+                            <h5 class="text-primary text-b">Gender</h5>
+                            <p class="info-sub-head">{{doctor.gender}}</p>
+    
+                        </div>
+
+                        <div class="col-sm-6" style="padding-left: 30px;">
+                            <h5 class="text-primary text-b">Age</h5>
+                            <p class="info-sub-head">{{doctor.age}}</p>
+    
+                        </div>
+                    </div>
+
+
+                    {% if user.is_authenticated %}
+                            {% if doctor.id in requested_doctors %}
+                                <div>
+                                    <button type="button" id="btn_{{doctor.id}}" class="btn btn-secondary btn-block py-2" onclick=""><i id="icon_{{doctor.id}}" class="fa fa-check"></i> &nbsp; <span id="span_{{doctor.id}}">Request sent</span></button>
+
+                                </div>
+
+                            {% else %}
+                                <div>
+                                    <button type="button" id="btn_{{doctor.id}}" class="btn btn-outline-primary btn-block py-2" onclick="send_appointment_request('{{doctor.id}}')"><i id="icon_{{doctor.id}}" class="fa fa-plus"></i> &nbsp; <span id="span_{{doctor.id}}">appointment &nbsp;request</span></button>
+                                </div>
+
+                            {% endif %}
+                            
+                        
+
+                    {% else %}
+                        <div>
+                            <a href="login">
+                                <button type="button" name="" id="" class="btn btn-outline-primary btn-block py-2"><i class="fa fa-plus"></i> &nbsp; appointment &nbsp;request</button>
+
+                            </a>
+                        </div>
+
+                    {% endif %}
+
+                    <script>
+                        function send_appointment_request(doctor_id) {
+                            console.log("doctorID = "+doctor_id);
+                    
+                            $.ajax({
+                                url: "{% url 'send_request' %}",
+                                type: 'GET',
+                                data: 'doctor_id='+doctor_id,
+                                success: function(response){
+                                    alert(response.message);
+                                    if (response.status==1) {
+                                        $("#icon_"+doctor_id).removeClass("fa-plus");
+                                        $("#icon_"+doctor_id).addClass("fa-check");
+                                        $("#span_"+doctor_id).text("Request sent");
+                                        $("#btn_"+doctor_id).removeClass("btn-outline-primary");
+                                        $("#btn_"+doctor_id).addClass("btn-secondary");
+                                        $("#btn_"+doctor_id).attr("onclick", "");
+                                    }
+                                }
+                            })
+                    
+                            
+                        }
+                    
+                    
+                    
+                    </script>
+
+
+                  
+    
+                    
+                    
+                 </div>
+    
+                 
+            </div>
+
+
+            <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
+
+                    <!-- review section -->
+                    <div>
+
+<!--                    giving reviews here-->
+
+                        <h1>Reviews 
+                        {% if user.is_authenticated %}
+                            <i class="material-icons add_review_icon" title="Add your own review" data-toggle="collapse" data-target="#reviewForm">add</i>
+                        {% endif %}
+           
+                        </h1>
+
+                        
+                        <div class="collapse" id="reviewForm">
+                            <form action="" method="post" id="myReviewForm" class="my-3">
+                                {% csrf_token %}
+                                
+                                <div class="form-group">
+                                <textarea class="form-control" name="myReview" id="myReview" placeholder="Write your review here!" rows="3" required></textarea>
+                                </div>
+                                <input type="hidden" name="doctID" value="{{doctor.id}}">
+                                <div class="row">
+                                <div class="col-sm-4 py-2">
+                                    <div class="form-group">
+                                        <select class="form-control" name="ratings" id="ratings" required>
+                                            <option value="0">Select experience</option>
+                                            <option value="5">Amazing experience</option>
+                                            <option value="4">Better experience</option>
+                                            <option value="3">Good experience</option>
+                                            <option value="2">Bad experience</option>
+                                            <option value="1">Worst experience</option>
+                        
+                                        </select>
+                                    </div>
+                                </div>
+                    
+                                <div class="col-sm-4 py-2">
+                                    <button class="btn btn-primary px-4" type="submit">Post</button>
+                                </div>
+
+
+                                </div>
+
+                                <p class="text-danger" id="mainError"></p>
+
+                    
+                            </form>
+
+                        </div>
+
+                        {% for msg in messages %}
+                            <br>
+                            
+                            <div class="alert alert-warning" role="alert">
+                                {{msg}}
+                            </div>
+                        {% endfor %}
+
+                        <br>
+<!--                        if there exist  any review-->
+                        {% if reviews %}
+                            {% for review in reviews %}
+
+                            <div class="profile p-3 mb-3">
+                                <div class="row text-left">
+                                    <div class="col-sm-12 d-flex">
+                                    <img src="{% static 'img/profile_icon.png' %}" alt="" style="width: 55px; height: 55px; border-radius: 100%;">
+                                    <div class="mx-3">
+                                        <h4>{{review.author.first_name}} {{review.author.last_name}}<span class="ratingNumber" style="opacity: 0;">{{review.review_star}}</span></h4>
+                                        <div style="display: inline;" class="ratingParent" >
+                                        <i class="material-icons text-lightgrey" style="margin-right: -7px;">star</i>
+                                        <i class="material-icons text-lightgrey" style="margin-right: -7px;">star</i>
+                                        <i class="material-icons text-lightgrey" style="margin-right: -7px;">star</i>
+                                        <i class="material-icons text-lightgrey" style="margin-right: -7px;">star</i>
+                                        <i class="material-icons text-lightgrey" style="margin-right: -7px;">star</i>
+                    
+                                        </div>
+                                        
+                                    </div>
+                                    </div>
+                    
+                                    <div class="col-sm-12 pt-2">
+                                        {{review.review_msg}}
+
+                                        <p class="text-primary p-0 m-0 pt-2" style="font-size: 15px;">{{review.date}}</p>
+                                    </div>
+
+                                
+                                </div>
+                
+                            </div>
+
+
+
+                            {% endfor %}
+
+                            <script>
+                                
+                                $(document).ready(function(){
+                                    let all_stars_number = $(".ratingNumber");
+                                    let parent_ratings = $(".ratingParent");
+
+
+                                    
+                                    for(let i=0; i < all_stars_number.length; i++){
+                                        let rating_number = parseInt(all_stars_number[i].innerText);
+
+                                        console.log(rating_number)
+
+                                        let current_parent = parent_ratings[i];
+
+                                        let all_children = current_parent.children
+
+                                        for (let j = 0; j < rating_number; j++) {
+                                        const single_star = all_children[j];
+
+                                        single_star.classList.remove("text-lightgrey");
+                                        single_star.classList.add("text-warning");
+                                        
+                                        }
+
+                                    
+
+                                
+                                    // console.log(current_parent);
+                                    
+                                    // for(let i=0; i<parseInt(myID); i++){
+                                    //     all_stars[i].classList.add("checked");
+                                    // }
+                                    }
+                                });
+
+                            </script>
+                        
+
+                        {% else %}
+                        
+                        <h3 class="text-secondary">No reviews yet!</h3>
+                        {% endif %}
+                    
+                    
+                    </div>
+                    
+                    <!-- review section ends -->
+
+
+            </div>
+
+
+
+
+            {% else %}
+
+            
+
+            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                <div class="profile p-4">
+                    {% if is_doctor %}
+                        <img src="media/{{user_info.image}}" style="width: 100px;" class="pic-profile rounded-circle my-3" alt="">
+
+                    {% else %}
+                        <img src="{% static 'img/profile_icon.png' %}" style="width: 100px;" class="pic-profile rounded-circle my-3" alt="">
+
+                    {% endif %}
+                    
+                    <p class="para-grey">{{user.username}}</p> 
+                    
+    
+                    <div class="row my-4" style="text-align: left;">
+                        <div class="col-1 px-4 d-flex justify-content-right align-items-center">
+                            <i class="material-icons info-icon">person</i>
+                        </div>
+                        
+                        <div class="col-10" style="padding-left: 30px;">
+                            <h5 class="text-primary text-b">Name</h5>
+                            <p class="info-sub-head">{{user.first_name}} {{user.last_name}}</p>
+    
+                        </div>
+                    </div>
+    
+                    <div class="row my-4" style="text-align: left;">
+                        <div class="col-1 px-4 d-flex justify-content-right align-items-center">
+                            <i class="material-icons info-icon">mail</i>
+                        </div>
+                        <div class="col-10" style="padding-left: 30px;">
+                            <h5 class="text-primary text-b">Email</h5>
+                            <p class="info-sub-head">{{user.email}}</p>
+    
+                        </div>
+                    </div>
+
+                    {% if is_doctor %}
+                        <div class="row my-4" style="text-align: left;">
+                            <div class="col-1 px-4 d-flex justify-content-right align-items-center">
+                                <i class="material-icons info-icon">check_box</i>
+                            </div>
+                            <div class="col-10" style="padding-left: 30px;">
+                                <h5 class="text-primary text-b">Hospital</h5>
+                                <p class="info-sub-head">{{user_info.hospital}}</p>
+        
+                            </div>
+                        </div>
+
+                        <div class="row my-4" style="text-align: left;">
+                            <div class="col-1 px-4 d-flex justify-content-right align-items-center">
+                                <i class="material-icons info-icon">verified</i>
+                            </div>
+                            <div class="col-10" style="padding-left: 30px;">
+                                <h5 class="text-primary text-b">Profession</h5>
+                                <p class="info-sub-head">{{user_info.profession}}</p>
+        
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="row my-4" style="text-align: left;">
+                            
+                            <div class="col-sm-6" style="padding-left: 30px;">
+                                <h5 class="text-primary text-b">Gender</h5>
+                                <p class="info-sub-head">{{user_info.gender}}</p>
+        
+                            </div>
+
+                            <div class="col-sm-6" style="padding-left: 30px;">
+                                <h5 class="text-primary text-b">Age</h5>
+                                <p class="info-sub-head">{{user_info.age}}</p>
+        
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                {% if leave_taken %}
+
+                                    <button type="button" class="btn btn-secondary btn-block">Leave taken</button>
+
+                                {% else %}
+
+                                <button type="button" class="btn btn-primary btn-block my-3" data-toggle="collapse" data-target="#contentId">Take leave</button>
+
+
+
+                                {% endif %}
+
+                            </div>
+
+                            <div class="col-sm-6">
+                                <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#reset_password">Reset password</button>
+                            </div>
+
+
+                        </div>
+
+                        
+
+
+                        
+                        <div class="collapse" id="contentId">
+                            <form action="" method="post" id="leave_form">
+                                {% csrf_token %}
+                                <input class="form-control my-3" type="date" name="leave_date" id="leave_date" required>
+
+                                <p class="text-danger text-left" id="leave_form_error"></p>
+
+                                <button type="submit" class="btn btn-secondary btn-block">Submit</button>
+
+                            </form>
+                            
+                            
+                        </div>
+
+
+                    {% else %}
+                            <hr>
+                            
+                            <div class="row my-4" style="text-align: left;">
+                                    
+                                <div class="col-sm-6" style="padding-left: 30px;">
+                                    <h5 class="text-primary text-b">Gender</h5>
+                                    <p class="info-sub-head">{{patient_data.gender}}</p>
+            
+                                </div>
+
+                                <div class="col-sm-6" style="padding-left: 30px;">
+                                    <h5 class="text-primary text-b">Age</h5>
+                                    <p class="info-sub-head">{{patient_data.age}}</p>
+            
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#reset_password">Reset password</button><br>
+                                    <a href="/edit/"><button type="button" class="btn btn-primary btn-block" >Edit profile</button></a>
+                                </div>    
+                            </div>
+
+                    {% endif %}
+    
+                    
+                    
+                 </div>
+    
+                 
+            </div>
+
+            <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
+                
+                {% for msg in messages %}
+
+                    <div class="alert alert-danger" role="alert">
+                        {{msg}}
+                    </div>
+
+                {% endfor %}
+
+                <div class="alert alert-success alert-dismissible" id="reset_success" style="display: none;">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    Your password has been changed successfully!
+                </div>
+
+                <div class="profile p-3 text-left mb-4">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <h4 class="mt-1" style="float: left">Appointments</h4>
+                            <a href="/chat"><h4 class="mt-1" style="float: right">Wanna Converse</h4></a>
+                        </div>
+
+<!--                        <div class="col-sm-4 text-right">-->
+<!--                            <select style="width: 150px;" class="form-control pb-4">-->
+<!--                                <option>All</option>-->
+<!--                                <option>Waiting for response</option>-->
+<!--                                <option>Accepted</option>-->
+<!--                                <option>Rejected</option>-->
+<!--                            </select>-->
+<!--                        </div>-->
+                    </div>
+                    
+                </div>
+
+                {% if not all_appoints %}
+                    <h4 class="text-secondary my-5">No appointment exists right now</h4>
+
+                {% endif %}
+
+            
+                {% for appoint in all_appoints %}
+
+                {% if is_doctor %}
+                    <div class="row mx-0 py-3 my-3" style="box-shadow: 4px 3px 10px #cccccc;">
+                        <div class="col-sm-5 d-flex align-items-center">
+                            <img src="{% static 'img/profile_icon.png' %}" style="width: 60px; height:60px; border-radius: 100%;" alt="">
+
+                            <div class="mx-4">
+                                <h5>{{appoint.sender_patient.first_name}} {{appoint.sender_patient.last_name}}</h5>
+                                {% if appoint.status == 0 %}
+                                    <div class="px-2" style="border-radius: 15px; background-color: #f21aa5; color: white; width: fit-content;">waiting for response</div>
+                                {% elif appoint.status == 1 %}
+                                    <div class="px-2 text-white" style="border-radius: 15px; width: fit-content; background-color: #00668c;">Accepted</div>
+                                {% elif appoint.status == -1 %}
+                                    <div class="px-2 bg-danger text-white" style="border-radius: 15px; width: fit-content;">Rejected</div>
+                                {% elif appoint.status == 2 %}
+                                    <div class="px-2 text-white bg-success" style="border-radius: 15px; width: fit-content;">Completed</div>
+                            
+                                {% elif appoint.status == -2 %}
+                                    <div class="px-2 text-white bg-secondary" style="border-radius: 15px; width: fit-content;">Cancelled</div>
+    
+    
+                                {% endif %}
+                            </div>
+
+                        </div>
+                        
+                        <div class="col-sm-3 p-0 d-flex">
+                            {% if not appoint.appointment_date %}
+                                <div class="" style="color: white;">
+                                    <h5 class="text-white">Date & time</h5>
+                                    {{appoint.appointment_date}}
+                                    {{appoint.appointment_time}}
+                                </div>
+
+                            {% else %}
+                                <div class="">
+                                    <h5 class="text-secondary">Date & time</h5>
+                                    {{appoint.appointment_date}} - 
+                                    {{appoint.appointment_time}}
+                                </div>
+
+                            {% endif %}
+
+
+                            
+
+                        </div>
+
+                        <div class="col-sm-4 d-flex justify-content-center">
+                            {% if appoint.status == 0 %}
+                                <div class="my-2">
+                                    <h5 class="text-secondary"></h5>
+                                    <button type="button" class="btn btn-success" style="width: 80px;" onclick="accept_request('{{appoint.id}}')">Accept</button>
+                                    <a href="reject/{{appoint.id}}" onclick="return confirm('Are you sure to reject this appointment ?')">
+                                        <button type="button" class="btn btn-danger" style="width: 80px;">Reject</button>
+
+                                    </a>
+
+                                </div>
+                            {% elif appoint.status == 1 %}
+                                <div class="my-2">
+                                    <h5 class="text-secondary"></h5>
+                                    <a href="completed/{{appoint.id}}" onclick="return confirm('This appointment will be marked as completed!')">
+                                        <button type="button" class="btn btn-primary">Complete it</button>
+
+                                    </a>
+
+                                </div>
+
+                            {% endif %}
+                        </div>
+
+                        
+
+                        
+                    
+                    </div>
+
+                    
+                {% else %}
+
+
+
+                    <div class="row mx-0 py-3 my-3" style="box-shadow: 4px 3px 10px #cccccc;">
+                        <div class="col-sm-5 pr-0 d-flex align-items-center">
+                            <a href="doctor/{{appoint.to_doctor.id}}" style="text-decoration: none;" title="Visit profile">
+                                <img src="media/{{appoint.to_doctor.image}}" style="width: 60px; border-radius: 100%;" alt="">
+                            </a>
+                            
+                            <div class="mx-4">
+                                <a href="doctor/{{appoint.to_doctor.id}}" style="text-decoration: none;" title="Visit profile">
+                                    <h5>Dr. {{appoint.to_doctor.first_name}} {{appoint.to_doctor.last_name}}</h5>
+                                    <a href="vedio">
+                                        <i class="fa fa-video-camera" aria-hidden="true"></i>
+                                    </a>
+                                </a>
+                                {% if appoint.status == 0 %}
+                                    <div class="px-2" style="border-radius: 15px; background-color: #f21aa5; color: white; width: fit-content;">waiting for response</div>
+                                {% elif appoint.status == 1 %}
+                                    <div class="px-2 text-white" style="border-radius: 15px; width: fit-content; background-color: #00668c;">Accepted</div>
+                                {% elif appoint.status == -1 %}
+                                    <div class="px-2 bg-danger text-white" style="border-radius: 15px; width: fit-content;">Rejected</div>
+                                {% elif appoint.status == 2 %}
+                                    <div class="px-2 text-white bg-success" style="border-radius: 15px; width: fit-content;">Completed</div>
+                                {% elif appoint.status == -2 %}
+                                    <div class="px-2 text-white bg-secondary" style="border-radius: 15px; width: fit-content;">Cancelled</div>
+    
+    
+                                {% endif %}
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-sm-3">
+                            <div class="">
+                                <h5 class="text-secondary">Profession</h5>
+                                {{appoint.depart}}
+                            </div>
+                            
+                        </div>
+
+                        <div class="col-sm-4 d-flex">
+                            {% if not appoint.appointment_date %}
+                                <div class="" style="color: white;">
+                                    <h5 class="text-white">Date & time</h5>
+                                    {{appoint.appointment_date}}
+                                    {{appoint.appointment_time}}
+                                </div>
+
+                            {% else %}
+                                <div class="">
+                                    <h5 class="text-secondary">Date & time</h5>
+                                    {{appoint.appointment_date}} - 
+                                    {{appoint.appointment_time}}
+                                </div>
+
+                            {% endif %}
+                
+
+                        </div>
+                    </div>
+
+
+                {% endif %}
+                
+                {% endfor %}
+
+            
+
+            </div>
+
+            {% endif %}
+            
+        </div>
+    </div>
+    
+    
+
+        
+    <!-- Emergency_contact end -->
+
+    <!-- footer start -->
+    {% include 'inc/footer.inc.html' %}
+<!-- footer end  -->
+<!-- link that opens popup -->
+
+{% include 'inc/bottom.inc.html' %}
+
+<script>
+    function accept_request(appoint_id) {
+        $("#ap_id").val(appoint_id);
+        $("#date_form").modal("show");
+        
+    }
+
+
+    $("#myReviewForm").submit(function () {
+        var ratings = $("#ratings").val();
+        var myReview = $("#myReview").val();
+        console.log(ratings);
+        console.log(myReview);
+        if (ratings=="0" || myReview=="") {
+            $("#mainError").text("Please! complete the form before submitting");
+            return false;
+        }else{
+            return true;
+        }
+
+    });
+
+
+    $("#confirm_appoint").submit(function () {
+        var DATE = $("#DATE").val();
+        var TIME = $("#TIME").val();
+        var GIVEN_DATE = new Date(`${DATE}`);
+        var CURRENT_DATE= new Date();
+
+        CURRENT_DATE.setHours(0, 0, 0, 0);
+
+        // console.log("==========");
+        // console.log(CURRENT_DATE);
+        // console.log(GIVEN_DATE);
+        // console.log("==========");
+
+        if (GIVEN_DATE > CURRENT_DATE) {
+            return true;
+        }else{
+            alert("Kindly select the date of future to schedule appointment");
+            return false;
+        }
+    });
+
+
+    $("#leave_form").submit(function(){
+        var leave_date = $("#leave_date").val();
+        var CURRENT_DATE= new Date();
+        var GIVEN_DATE = new Date(`${leave_date}`);
+
+        CURRENT_DATE.setHours(0, 0, 0, 0);
+
+        if (GIVEN_DATE > CURRENT_DATE) {
+            $("#leave_form_error").text("");
+            return true
+            
+        }else{
+            $("#leave_form_error").text("Kindly select future date for leave");
+            return false;
+        }
+
+
+
+
+    });
+
+
+    $("#reset_password_form").submit(()=>{
+        var current_password = $("#current_password").val();
+        var new_password = $("#new_password").val();
+
+        if (current_password==new_password) {
+            $("#reset_form_error").text("Please! write a new password.");
+            return false;
+            
+        }else{
+            $("#reset_form_error").text("");
+
+        }
+
+        $.ajax({
+            url: "{% url 'check_password' %}",
+            type: 'GET',
+            data: `current_password=${current_password}&new_password=${new_password}`,
+            success: (response)=>{
+                if (!response.status) {
+
+                    $("#reset_form_error").text("Please! enter current password correctly");
+                    
+                }else{
+
+                    $("#reset_form_error").text("");
+                    $("#reset_password_form").trigger("reset");
+                    $("#reset_password").modal("hide");
+                    $(".modal-fade").modal("hide");
+                    $(".modal-backdrop").remove();
+                    $("#reset_success").css('display', 'block');
+
+                }
+            }
+
+        })
+
+        return false;
+    });
+
+
+
+</script>

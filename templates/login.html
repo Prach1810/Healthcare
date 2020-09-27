@@ -1,0 +1,36 @@
+{% load static %}
+
+{% include 'inc/head.inc.html' %}
+
+<body style="background-color: #ffffff;">
+    <div class="row" style="width: 100%;">
+        <div class="col-12 d-flex justify-content-center align-items-center" style="min-height: 100vh">
+            <div class="my-form">
+                <h3 class="text-primary">Login here!</h3>
+                <form autocomplete="off" style="text-align:center; margin-top: 30px;" action="login" method="POST">
+                    {% csrf_token %}
+                    <!-- <i class="material-icons pro">account_circle</i> -->
+                    <input class="field form-control" id="username" name="username" type="name" placeholder="Username" required>
+                    <input class="field form-control" id="passowrd" name="password" type="password" placeholder="Password" required>
+                    <p id="error" 
+                        style="
+                            text-align: left; 
+                            transition-duration:0.25s;
+                            color:#ed4337;"
+                        >
+                        {% for message in messages %}
+                            {{message}}
+                        {% endfor %}
+                    </p>
+                    <button class="btn btn-block btn-primary" type="submit">NEXT</button>
+                    <small class="d-flex justify-content-end"> <a href="password-reset/"> Forgot password?</a></small>
+                    <p class="my-4">Never registered before?</p>
+                    <a href="{% url 'signup' %}"><button class="btn btn-block btn-secondary" type="button">SIGNUP</button></a>
+                </form>
+
+            </div>
+        </div>
+    </div>    
+</body>
+
+</html>

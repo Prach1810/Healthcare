@@ -1,0 +1,80 @@
+{% load static %}
+
+{% include 'inc/head.inc.html' %}
+
+<body style="background-color: #ffffff;">
+    <div class="row" style="width: 100%;">
+        <div class="col-12 d-flex justify-content-center align-items-center" style="min-height: 100vh">
+            <div class="my-form" id="mainDiv">
+                <h3 class="text-primary">Registration</h3>
+                <form autocomplete="off" style="text-align:center; margin-top: 30px;" action="signup" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <!-- <i class="material-icons pro">account_circle</i> -->
+                    <!-- <img src="{% static 'img/logo.png' %}" class="my-3" style="text-align: center; width:200px;" alt=""> -->
+                    <input class="field form-control" id="username" name="username" type="text" value="{{username}}" placeholder="Username" required>
+                    <input class="field form-control" id="name" name="name" type="text" value="{{name}}" placeholder="First name" required>
+                    <input class="field form-control" id="l_name" name="l_name" type="text" value="{{l_name}}" placeholder="Last name" required>
+                    <input class="field form-control" id="email" name="email" type="email" value="{{email}}" placeholder="Email" required>
+                    <input class="field form-control" id="pass1" name="pass1" type="password" value="{{pass1}}" placeholder="Password" required>
+                    <input class="field form-control" id="pass2" name="pass2" type="password" value="{{pass2}}" placeholder="Confirm Password" required>
+                    
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <select class="form-control" name="gender" required>
+                                  <option value="">Gender</option>
+                                  <option value="Male">Male</option>
+                                  <option value="Female">Female</option>
+                                  <option value="Other">Other</option>
+                                  </select>
+                              </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <input class="form-control" id="pass2" name="age" type="number" min="1" max="120" placeholder="Your age" required>
+
+                        </div>
+
+                    </div>
+                    
+
+
+                    <p id="error" 
+                        style="
+                            text-align: left; 
+                            transition-duration:0.25s;
+                            color:#ed4337;"
+                        >
+                        {% for message in messages %}
+                            {{message}}
+                        {% endfor %}
+                    </p>
+                    <button class="btn btn-block btn-primary" type="submit">SIGNUP</button>        
+                    <p class="my-4">Already registered?</p>
+                    <a href="{% url 'login' %}"><button class="btn btn-block btn-secondary" type="button">LOGIN</button></a>
+                    <br>        
+                </form>
+            </div>
+        </div>
+    </div>    
+</body>
+
+<script>
+    var x = "{{border}}";
+    if(x=="email"){
+        $("#email").css(
+            'border-color', '#ed4337'
+        );
+    }else if(x=="password"){
+        $("#pass1, #pass2").css(
+            'border-color', '#ed4337'
+        );
+    }else if(x=="phone"){
+        $("#username").css(
+            'border-color', '#ed4337'
+        );
+    };
+
+</script>
+
+</html>

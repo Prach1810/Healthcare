@@ -1,0 +1,74 @@
+<div class="col-md-6 col-lg-3 mb-3">
+<!--    doctor from urls get view.per_doct function to show doctor profile-->
+    <a href="doctor/{{i.Doctor.id}}">
+        <div class="single_expert">
+            <div class="expert_thumb">
+                <img src="media/{{i.Doctor.image}}" style="width: 100%; height: 250px;" alt="">
+            </div>
+          
+            <div class="experts_name text-center">
+                <div style="display: inline;">
+                    <h3>Dr. {{i.Doctor.first_name}} {{i.Doctor.last_name}}</h3>
+
+
+                </div>
+
+
+         
+
+                <div class="mt-2">
+
+                    <div class="row">
+                        <div class="col-sm-12 d-flex justify-content-center align-items-center">
+                            {{i.Doctor.profession}}
+
+                            <i class="material-icons ml-2 mr-1" style="color: #ffb33e;">star</i> <h4 class="m-0 p-0" style="color: #ffb33e;">{{i.all_ratings}}</h4>
+                        </div>
+                    </div>
+                </div>
+             
+
+
+            </div>
+
+            
+            
+
+            
+
+        </div>
+
+    </a>
+    {% if user.is_authenticated %}
+          <!--appintment has been applied or requsted-->
+            {% if i.Doctor.id in requested_doctors %}
+                <div>
+                    <button type="button" id="btn_{{i.Doctor.id}}" class="btn btn-secondary btn-block py-2" onclick=""><i id="icon_{{i.Doctor.id}}" class="fa fa-check"></i> &nbsp; <span id="span_{{i.Doctor.id}}">Request sent</span></button>
+
+                </div>
+<!--has not been requested yet-->
+            {% else %}
+                <div>
+                    <button type="button" id="btn_{{i.Doctor.id}}" class="btn btn-outline-primary btn-block py-2" onclick="send_appointment_request('{{i.Doctor.id}}')"><i id="icon_{{i.Doctor.id}}" class="fa fa-plus"></i> &nbsp; <span id="span_{{i.Doctor.id}}">appointment &nbsp;request</span></button>
+                </div>
+
+            {% endif %}
+            
+        
+<!--by clicking button it leads to login fisrt if not already logged in-->
+    {% else %}
+        <div>
+            <a href="login">
+                <button type="button" name="" id="" class="btn btn-outline-primary btn-block py-2"><i class="fa fa-plus"></i> &nbsp; appointment &nbsp;request</button>
+
+            </a>
+        </div>
+
+    {% endif %}
+    
+</div>
+
+
+
+
+

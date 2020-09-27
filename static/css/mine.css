@@ -1,0 +1,46 @@
+.my-form {
+    text-align: center;
+    border: solid 1px #cccccc;
+    border-radius: 5px;
+    padding: 50px;
+  }
+
+select { 
+  padding:10px;
+  width: 10em 
+}
+
+.field {
+    height: 50px;
+    width: 350px;
+    margin: 20px 0px;
+    font-size: 11pt;
+    padding: 8px 15px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+  }
+
+.profile {
+    background-color: #ffffff;
+    border-radius: 5px;
+    text-align: center;
+    border: solid 1px #cccccc;
+  }
+
+@media only screen and (max-width: 500px) {
+    .abc{
+      padding-right: 40px;
+    }
+
+    .my-form {
+        padding: 0px;
+        width: 100%;
+        border: none;
+        margin-left: 20px;
+      }
+    
+    .field {
+        width: 100%;
+      }
+
+  }

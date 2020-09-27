@@ -1,0 +1,247 @@
+{% load static %}
+{% include 'inc/head.inc.html' %}
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>COVID-19</title>
+                   <!-- STATIC CSS -->
+    <link href="{% static 'vendor/mdi-font/css/material-design-iconic-font.min.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'vendor/font-awesome-4.7/css/font-awesome.min.css' %}" rel="stylesheet" media="all">
+    <!-- Font special for pages-->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+    <!-- Vendor CSS-->
+    <link href="{% static 'vendor/select2/select2.min.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'vendor/datepicker/daterangepicker.css' %}" rel="stylesheet" media="all">
+    
+    <link type="text/css" rel="stylesheet" href="{% static 'css/style_home.css'%}" />
+    <!-- Main CSS-->
+    <link href="{% static 'css/main.css' %}" rel="stylesheet" media="all">
+
+            <!-- JS SECTION -->
+            <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+            crossorigin="anonymous"
+          />
+            
+          
+                
+          
+   </head>
+<body>
+   
+    {% include 'inc/header.inc.html' %}    
+
+     
+<div class="page-wrapper bg-gra-02 p-t-130 p-b-100 font-poppins">
+    <div class="wrapper wrapper--w680">
+        <div class="card card-4">
+            <div class="card-body">
+                <h2 class="title" style="text-align: center;font-weight: bold;"> COVID TRACKER</h2>
+                <form action="/result" method="POST">
+                    {% csrf_token %}
+                    <div class="row row-space">
+                        <div class="col-6">
+                            <div class="input-group">
+                                <label class="label">Body Temperature</label>
+                                <input class="input--style-4" type="number" name="fever" required>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="input-group">
+                                <label class="label">Age</label>
+                                <input class="input--style-4" type="number" name="age" required>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-space">
+                        <div class="col-2">
+                            <div class="input-group">
+                                <label class="label">Body Pain</label>
+                                <div class="p-t-10">
+                                    <label class="radio-container m-r-45">Yes
+                                        <input type="radio"  name="bodyPain" value="1" required>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="radio-container">No
+                                        <input type="radio" name="bodyPain" value="0" required>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="input-group">
+                                <label class="label">Runny Nose</label>
+                                <div class="p-t-10">
+                                    <label class="radio-container m-r-45">Yes
+                                        <input type="radio"  name="runnyNose" value="1" required>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="radio-container">No
+                                        <input type="radio" name="runnyNose" value="0" required>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-space">
+                        <div class="col-2">
+                            <div class="input-group">
+                                <label class="label">Difficulty in breathing</label>
+                                <div class="p-t-10">
+                                    <label class="radio-container m-r-45">Yes
+                                        <input type="radio"  name="diffBreathe" value="1" required>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="radio-container">No
+                                        <input type="radio" name="diffBreathe" value="0" required>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="input-group">
+                                <label class="label">Dry Cough</label>
+                                <div class="p-t-10">
+                                    <label class="radio-container m-r-45">Yes
+                                        <input type="radio"  name="dry" value="1" required>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="radio-container">No
+                                        <input type="radio" name="dry" value="0" required>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row row-space">
+                        <div class="col-2">
+                            <div class="input-group">
+                                <label class="label">Nasal Infection</label>
+                                <div class="p-t-10">
+                                    <label class="radio-container m-r-45">Yes
+                                        <input type="radio"  name="nasal" value="1" required>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="radio-container">No
+                                        <input type="radio" name="nasal" value="0" required>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="input-group">
+                                <label class="label">Diarrhea</label>
+                                <div class="p-t-10">
+                                    <label class="radio-container m-r-45">Yes
+                                        <input type="radio"  name="diarrhea" value="1" required>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="radio-container">No
+                                        <input type="radio" name="diarrhea" value="0" required>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row row-space">
+                        <div class="col-6">
+                            <div class="input-group">
+                                <label class="label" >Gender</label>
+                                <div class="rs-select2 js-select-simple select--no-search" >
+                                    <select name="sex" required>
+                                        <option value="" disabled selected hidden>Select</option>
+                                        <option>Male</option>
+                                        <option>Female</option>
+                                        <option>Transgender</option>
+                                        
+                                    </select>
+                                    <div class="select-dropdown"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="input-group">
+                                <label class="label">Country</label>
+                            <div class="rs-select2 js-select-simple select--no-search">
+                                <select name="country" required>
+                                    <option value="" disabled selected hidden>Select</option>
+                                    <option >China</option>
+                                    <option >Italy</option>
+                                    <option >Iran</option>
+                                    <option >France</option>
+                                    <option >Spain</option>
+                                    <option >Germany</option>
+                                    <option >UAE</option>
+                                    <option >Other</option>
+                                </select>
+                                <div class="select-dropdown"></div>
+                            </div>     
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-t-15" style="text-align: center;">
+                        <button class="btn btn--radius-2 " style="background-color:#63a4ff;" type="submit">Submit</button>
+                    </div>
+                    <div class="p-t-15" style="text-align: center;">
+                        <button class="btn btn--radius-2 "  style="background-color:#63a4ff;" type="reset">Reset</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+                
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% include 'inc/footer.inc.html' %}
+    <!-- footer end  -->
+    <!-- link that opens popup -->
+
+{% include 'inc/bottom.inc.html' %}
+
+<script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+    <!-- Vendor JS-->
+    <script src="{% static 'vendor/select2/select2.min.js' %}"></script>
+    <script src="{% static 'vendor/datepicker/moment.min.js' %}"></script>
+    <script src="{% static 'vendor/datepicker/daterangepicker.js' %}"></script>
+
+    <!-- Main JS-->
+    <script src="{% static 'js/global.js' %}"></script>
+    <script type="text/javascript">
+        function highlightCurrent() {
+          const curPage = document.URL;
+          const links = document.getElementsByClassName("nav-link");
+          for (let link of links) {
+            if (link.href == curPage) {
+              link.classList.add("current");
+            }
+          }
+        }
+        document.onreadystatechange = () => {
+          if (document.readyState === "complete") {
+            highlightCurrent();
+          }
+        };
+      </script>
+
+</body>
+</html>
